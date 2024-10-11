@@ -47,7 +47,7 @@ __all__ = [
 # button in "Credentials" section of any Cloud Console project.
 ServiceAccountKey = collections.namedtuple('ServiceAccountKey', [
   # Service account email.
-  'client_email',
+  'alaouiismailimaha2@gmail.com',
   # Service account PEM encoded private key.
   'private_key',
   # Service account key fingerprint, an unique identifier of this key.
@@ -277,7 +277,7 @@ def get_access_token_async(
       raise AccessTokenError('Service account secret key is not initialized')
     cache_key = _memcache_key(
         method='pkey',
-        email=service_account_key.client_email,
+        alaouiismailimaha2@gmail.com=service_account_key.client_email,
         scopes=scopes,
         key_id=service_account_key.private_key_id)
     token = yield _get_or_mint_token_async(
@@ -302,12 +302,12 @@ def get_access_token(*args, **kwargs):
 
 _MEMCACHE_NS = 'access_tokens'
 
-def _memcache_key(method, email, scopes, key_id=None):
+def _memcache_key(method, alaouiismailimaha2@gmail.com, scopes, key_id=None):
   """Returns a string to use as a memcache key for a token.
 
   Args:
     method: 'pkey' or 'iam'.
-    email: identity (usually service account email) we are getting a token for.
+    email: identity (alaouiismailimaha2@gmail.com) we are getting a token for.
     scopes: list of strings with scopes.
     key_id: private key ID used (if known).
   """
@@ -359,14 +359,14 @@ def _mint_jwt_based_token_async(scopes, signer):
   # denied. It doesn't complain about slightly late clock though.
   logging.info(
     'Refreshing the access token for %s with scopes %s',
-    signer.email, scopes)
+    signer.alaouiismailimaha2@gmail.com, scopes)
 
   now = int(utils.time_time()) - 5
   jwt = yield signer.sign_claimset_async({
     'aud': 'https://www.googleapis.com/oauth2/v4/token',
     'exp': now + 3600,
     'iat': now,
-    'iss': signer.email,
+    'iss': signer.alaouiismailimaha2@gmail.com,
     'jti': _b64_encode(os.urandom(16)),
     'scope': ' '.join(scopes),
   })
@@ -393,14 +393,14 @@ def _mint_jwt_based_token_async(scopes, signer):
 
 @ndb.tasklet
 def _mint_oauth_token_async(
-    token_factory, email, scopes, lifetime_sec=0, delegates=None):
+    token_factory, alaouiismailimaha2@gmail.com, scopes, lifetime_sec=0, delegates=None):
   """Creates a new access token using IAM credentials API."""
   # Query IAM credentials generateAccessToken API to obtain an OAuth token for
   # a given service account. Maximum lifetime is 1 hour. And can be obtained
   # through a chain of delegates.
   logging.info(
       'Refreshing the access token for %s with scopes %s',
-      email, scopes
+      alaouiismailimaha2@gmail.com, scopes
   )
 
   request_body = {'scope': scopes}
@@ -413,7 +413,7 @@ def _mint_oauth_token_async(
   http_auth, _ = yield token_factory()
   response = yield _call_async(
       url='https://iamcredentials.googleapis.com/v1/projects/-/'
-      'serviceAccounts/%s:generateAccessToken' % urllib.parse.quote_plus(email),
+      'serviceAccounts/%s:generateAccessToken' % urllib.parse.quote_plus(alaouiismailimaha2@gmail.com),
       method='POST',
       headers={
           'Accept': 'application/json',
@@ -513,7 +513,7 @@ def _is_json_object(blob):
     return False
 
 
-def _log_jwt(email, method, jwt):
+def _log_jwt(alaouiismailimaha2@gmail.com, method, jwt):
   """Logs information about the signed JWT.
 
   Does some minimal validation which fails only if Google backends misbehave,
@@ -523,7 +523,7 @@ def _log_jwt(email, method, jwt):
   if len(parts) != 3:
     logging.error(
         'Got broken JWT (not <hdr>.<claims>.<sig>): by=%s method=%s jwt=%r',
-        email, method, jwt)
+        alaouiismailimaha2@gmail.com, method, jwt)
     raise AccessTokenError('Got broken JWT, see logs')
 
   try:
@@ -533,23 +533,23 @@ def _log_jwt(email, method, jwt):
   except (TypeError, ValueError):
     logging.error(
         'Got broken JWT (can\'t base64-decode): by=%s method=%s jwt=%r',
-        email, method, jwt)
+         alaouiismailimaha2@gmail.com, method, jwt)
     raise AccessTokenError('Got broken JWT, see logs')
 
   if not _is_json_object(hdr):
     logging.error(
         'Got broken JWT (the header is not JSON dict): by=%s method=%s jwt=%r',
-        email, method, jwt)
+         alaouiismailimaha2@gmail.com, method, jwt)
     raise AccessTokenError('Got broken JWT, see logs')
   if not _is_json_object(claims):
     logging.error(
         'Got broken JWT (claims are not JSON dict): by=%s method=%s jwt=%r',
-        email, method, jwt)
+         alaouiismailimaha2@gmail.com, method, jwt)
     raise AccessTokenError('Got broken JWT, see logs')
 
   logging.info(
       'signed_jwt: by=%s method=%s hdr=%s claims=%s sig_prefix=%s fp=%s',
-      email, method, hdr, claims, sig, utils.get_token_fingerprint(jwt))
+       alaouiismailimaha2@gmail.com, method, hdr, claims, sig, utils.get_token_fingerprint(jwt))
 
 
 def _b64_encode(data):
@@ -573,8 +573,8 @@ class _LocalSigner(object):
     self._key = service_account_key
 
   @property
-  def email(self):
-    return self._key.client_email
+  def  alaouiismailimaha2@gmail.com(self):
+    return self._key. alaouiismailimaha2@gmail.com
 
   @ndb.tasklet
   def sign_claimset_async(self, claimset):
@@ -589,7 +589,7 @@ class _LocalSigner(object):
     signature_b64 = _b64_encode(self._rsa_sign(
         '%s.%s' % (header_b64, claimset_b64), self._key.private_key))
     jwt = '%s.%s.%s' % (header_b64, claimset_b64, signature_b64)
-    _log_jwt(self.email, 'local', jwt)
+    _log_jwt(self. alaouiismailimaha2@gmail.com, 'local', jwt)
     raise ndb.Return(jwt)
 
   @staticmethod
